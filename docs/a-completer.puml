@@ -1,3 +1,57 @@
 @startuml
-' TODO : produire le diagramme demandé dans le README.
+' Diagramme de classes et modèle logique de données — Starter 2.
+' Les ingrédients sont indépendants des pizzas à cette étape.
+
+title Foodtruck - Classes et MLD (Starter 2)
+
+package "Diagramme de classes (entités)" {
+  class Pizza {
+    +id : Integer
+    +name : String
+    +description : String
+    +price : Number
+    +imageUrl : String?
+    --
+    +findAll()
+    +findById(id)
+    +create(data)
+    +update(id, data)
+    +remove(id)
+  }
+
+  class Ingredient {
+    +id : Integer
+    +name : String
+    +price : Number
+    --
+    +findAll()
+    +findById(id)
+    +create(data)
+    +update(id, data)
+    +remove(id)
+  }
+}
+
+package "MLD - SQLite" {
+  entity "pizzas" as pizzas {
+    * id : INTEGER <<PK>>
+    --
+    name : TEXT NOT NULL
+    description : TEXT NOT NULL
+    price : REAL NOT NULL
+    imageUrl : TEXT NULL
+  }
+
+  entity "ingredients" as ingredients {
+    * id : INTEGER <<PK>>
+    --
+    name : TEXT NOT NULL
+    price : REAL NOT NULL
+  }
+}
+
+note bottom of ingredients
+  Aucune clé étrangère ni association
+  entre pizzas et ingredients dans Starter 2.
+end note
 @enduml
