@@ -1,32 +1,3 @@
 @startuml
-
-title Foodtruck — parcours d'une requête CRUD
-
-actor Client
-
-participant "Route Express\n(src/routes/pizzas.js)" as Route
-participant "Controller\n(src/controllers/pizzasController.js)" as Controller
-participant "Validation\n(src/validation.js)" as Validation
-participant "Entity\n(src/entities/Pizza.js)" as Entity
-
-database "SQLite\n(pizzas)" as SQLite
-
-Client -> Route : Requête HTTP /api/pizzas
-
-Route -> Controller : Fonction correspondante
-
-Controller -> Validation : validateId / validatePizza
-
-Validation --> Controller : Données valides ou erreur 400
-
-Controller -> Entity : findAll / findById / create / update / remove
-
-Entity -> SQLite : SQL paramétré (?)
-
-SQLite --> Entity : Résultat ou nombre de lignes modifiées
-
-Entity --> Controller : Pizza, liste ou résultat
-
-Controller --> Client : JSON + statut HTTP (200/201/204/404)
-
+' TODO : produire le diagramme demandé dans le README.
 @enduml
