@@ -1,32 +1,57 @@
 @startuml
+' Diagramme de classes et modèle logique de données — Starter 2.
+' Les ingrédients sont indépendants des pizzas à cette étape.
 
-title Foodtruck — parcours d'une requête CRUD
+title Foodtruck - Classes et MLD (Starter 2)
 
-actor Client
+package "Diagramme de classes (entités)" {
+  class Pizza {
+    +id : Integer
+    +name : String
+    +description : String
+    +price : Number
+    +imageUrl : String?
+    --
+    +findAll()
+    +findById(id)
+    +create(data)
+    +update(id, data)
+    +remove(id)
+  }
 
-participant "Route Express\n(src/routes/pizzas.js)" as Route
-participant "Controller\n(src/controllers/pizzasController.js)" as Controller
-participant "Validation\n(src/validation.js)" as Validation
-participant "Entity\n(src/entities/Pizza.js)" as Entity
+  class Ingredient {
+    +id : Integer
+    +name : String
+    +price : Number
+    --
+    +findAll()
+    +findById(id)
+    +create(data)
+    +update(id, data)
+    +remove(id)
+  }
+}
 
-database "SQLite\n(pizzas)" as SQLite
+package "MLD - SQLite" {
+  entity "pizzas" as pizzas {
+    * id : INTEGER <<PK>>
+    --
+    name : TEXT NOT NULL
+    description : TEXT NOT NULL
+    price : REAL NOT NULL
+    imageUrl : TEXT NULL
+  }
 
-Client -> Route : Requête HTTP /api/pizzas
+  entity "ingredients" as ingredients {
+    * id : INTEGER <<PK>>
+    --
+    name : TEXT NOT NULL
+    price : REAL NOT NULL
+  }
+}
 
-Route -> Controller : Fonction correspondante
-
-Controller -> Validation : validateId / validatePizza
-
-Validation --> Controller : Données valides ou erreur 400
-
-Controller -> Entity : findAll / findById / create / update / remove
-
-Entity -> SQLite : SQL paramétré (?)
-
-SQLite --> Entity : Résultat ou nombre de lignes modifiées
-
-Entity --> Controller : Pizza, liste ou résultat
-
-Controller --> Client : JSON + statut HTTP (200/201/204/404)
-
+note bottom of ingredients
+  Aucune clé étrangère ni association
+  entre pizzas et ingredients dans Starter 2.
+end note
 @enduml
